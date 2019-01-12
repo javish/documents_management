@@ -1,9 +1,11 @@
 require('dotenv/config');
+const uuid = require('uuid/v4');
 
 const { DocumentsRepository } = require('../../repositories/documents.repository');
 const { withStatusCode } = require('../../utils/response.util');
 const { parseWith } = require('../../utils/request.util');
 const { withProcessEnv } = require('../../dynamodb.factory');
+
 
 const docClient = withProcessEnv(process.env)();
 const repository = new DocumentsRepository(docClient);
@@ -13,6 +15,7 @@ const parseJson = parseWith(JSON.parse);
 exports.handler = async (event) => {
   const { body } = event;
   const document = parseJson(body);
+  document.Id = uuid();
 
   await repository.put(document);
 
