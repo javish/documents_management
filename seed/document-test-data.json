@@ -1,0 +1,33 @@
+[
+    {
+      "id": "1",
+      "Name": "Meeting Notes",
+      "props": [
+          {
+            "Type": "Word",
+            "Size": "10KB",
+            "Version": "1",
+            "Created By": "James",
+            "Created On": "01/11/2019 09:00:00",
+            "Deleted": "False",
+            "Locked": "False"
+          }
+      ]
+    },
+    {
+      "id": "2",
+      "Name": "Finance Report",
+      "props": [
+          {
+            "Type": "Excel",
+            "Size": "10MB",
+            "Version": "1",
+            "Created By": "Jessica",
+            "Created On": "01/11/2019 16:30:00",
+            "Deleted": "False",
+            "Locked": "False"
+          }
+      ]
+    }
+  ]
+  

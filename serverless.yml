@@ -1,0 +1,40 @@
+service: documents-management
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  documentTableName: 'document-${self:provider.stage}'
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+      
+  
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: us-west-2
+  environment:
+    DOCUMENT_TABLE: ${self:custom.documentTableName}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DOCUMENT_TABLE}"
+
+functions:
+  - '${file(resources/functions.serverless.yml)}'
+
+resources:
+  # DynamoDB
+  - ${file(resources/dynamodb.serverless.yml)}
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline # needs to be last in the list

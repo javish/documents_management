@@ -1,0 +1,20 @@
+list:
+  handler: src/handlers/documents/list.handler
+  events:
+    - http: get /documents
+get:
+  handler: src/handlers/documents/get.handler
+  events:
+    - http: get /document/{id}
+add:
+  handler: src/handlers/documents/add.handler
+  events:
+    - http: post /document
+update:
+  handler: src/handlers/documents/update.handler
+  events:
+    - http: put /document/{id}
+delete:
+  handler: src/handlers/documents/delete.handler
+  events:
+    - http: delete /document/{id}

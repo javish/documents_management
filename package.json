@@ -1,0 +1,19 @@
+{
+  "name": "documents_management",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "Javish Kathuria <javish.kathuria@gmail.com>",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sls": "serverless",
+    "seed": "node ./seed/runner.js",
+    "start": "sls offline start"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.386.0",
+    "dotenv": "^6.2.0",
+    "serverless-dynamodb-local": "^0.2.30",
+    "serverless-offline": "^3.32.2",
+    "source-map-support": "^0.5.10"
+  }
+}
