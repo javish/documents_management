@@ -5,6 +5,5 @@ node_modules/
 .dynamodb
 # files
 .DS_Store
-.env
 # tests
 # coverage/
