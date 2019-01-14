@@ -12,3 +12,16 @@ Resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
       TableName: ${self:provider.environment.DOCUMENT_TABLE}
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: loginId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: loginId
+          KeyType: HASH
+      ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+      TableName: ${self:provider.environment.USER_TABLE}

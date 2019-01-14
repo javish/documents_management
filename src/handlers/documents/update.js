@@ -3,6 +3,7 @@ require('dotenv/config');
 const { DocumentsRepository } = require('../../repositories/documents.repository');
 const { withStatusCode } = require('../../utils/response.util');
 const { parseWith } = require('../../utils/request.util');
+const { getUserId } = require('../../utils/auth.util');
 const { withProcessEnv } = require('../../dynamodb.factory');
 
 const docClient = withProcessEnv(process.env)();
@@ -18,7 +19,8 @@ exports.handler = async (event) => {
 
   const existingDocument = await repository.get(id);
   const document = parseJson(body);
-
+  document.updatedBy = getUserId(event);
+  
   if (!existingDocument) {
     return notFound();
   }

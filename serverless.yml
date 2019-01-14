@@ -1,14 +1,15 @@
 service: documents-management
 
 custom:
+  secrets: ${file(secrets.json)}
   stage: ${opt:stage, self:provider.stage}
   documentTableName: 'document-${self:provider.stage}'
+  userTableName: 'user-${self:provider.stage}'
   dynamodb:
     start:
       port: 8000
-      inMemory: true
-      migrate: true
-      
+      dbPath: /Users/javish/Documents/workspace/documents_management/projectData/
+      migrate: true  
   
 provider:
   name: aws
@@ -16,7 +17,9 @@ provider:
   stage: dev
   region: us-west-2
   environment:
+    JWT_SECRET: ${self:custom.secrets.JWT_SECRET}
     DOCUMENT_TABLE: ${self:custom.documentTableName}
+    USER_TABLE: ${self:custom.userTableName}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -26,7 +29,9 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DOCUMENT_TABLE}"
+      Resource: 
+        - { "Fn::GetAtt": ["${self:provider.environment.DOCUMENT_TABLE}", "Arn"] }
+        - { "Fn::GetAtt": ["${self:provider.environment.USER_TABLE}", "Arn"] }
 
 functions:
   - '${file(resources/functions.serverless.yml)}'

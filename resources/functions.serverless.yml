@@ -1,20 +1,46 @@
-list:
+verify-token:
+  handler: src/handlers/VerifyToken.verify
+
+listDocuments:
   handler: src/handlers/documents/list.handler
   events:
-    - http: get /documents
-get:
+    - http: 
+        path: /documents
+        method: get
+        
+getDocument:
   handler: src/handlers/documents/get.handler
   events:
-    - http: get /document/{id}
-add:
+    - http: 
+        path: /document/{id}
+        method: get
+        
+addDocument:
   handler: src/handlers/documents/add.handler
   events:
-    - http: post /document
-update:
+    - http: 
+        path: /document
+        method: post
+        
+updateDocument:
   handler: src/handlers/documents/update.handler
   events:
-    - http: put /document/{id}
-delete:
+    - http: 
+        path: /document/{id}
+        method: put
+        
+deleteDocument:
   handler: src/handlers/documents/delete.handler
   events:
-    - http: delete /document/{id}
+    - http: 
+        path: /document/{id}
+        method: delete
+        
+signup:
+  handler: src/handlers/users/signup.handler
+  events:
+    - http: post /signup
+login:
+  handler: src/handlers/users/login.handler
+  events:
+    - http: post /login
