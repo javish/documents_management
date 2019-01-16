@@ -11,15 +11,15 @@ class DocumentsRepository {
       this._documentClient = documentClient;
     }
   
-    async list() {
+    async list(userId) {
       const params = this._createParamObject();
       const response = await this._documentClient.scan(params).promise();
   
       return response.Items || [];
     }
   
-    async get(Id) {
-      const params = this._createParamObject({ Key: { Id } });
+    async get(Id, userId) {
+      const params = this._createParamObject({ Key: { Id: Id} });
       const response = await this._documentClient.get(params).promise();
   
       return response.Item;
@@ -32,8 +32,8 @@ class DocumentsRepository {
       return document;
     }
   
-    async delete(id) {
-      const params = this._createParamObject({ Key: { id } });
+    async delete(id, userId) {
+      const params = this._createParamObject({ Key: { Id: id} });
       await this._documentClient.delete(params).promise();
   
       return id;

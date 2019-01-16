@@ -1,5 +1,5 @@
-verify-token:
-  handler: src/handlers/VerifyToken.verify
+#verify-token:
+#  handler: src/handlers/VerifyToken.verify
 
 listDocuments:
   handler: src/handlers/documents/list.handler
@@ -7,35 +7,35 @@ listDocuments:
     - http: 
         path: /documents
         method: get
-        
+        #authorizer: verify-token
 getDocument:
   handler: src/handlers/documents/get.handler
   events:
     - http: 
         path: /document/{id}
         method: get
-        
+        #authorizer: verify-token
 addDocument:
   handler: src/handlers/documents/add.handler
   events:
     - http: 
         path: /document
         method: post
-        
+        #authorizer: verify-token
 updateDocument:
   handler: src/handlers/documents/update.handler
   events:
     - http: 
         path: /document/{id}
         method: put
-        
+        #authorizer: verify-token
 deleteDocument:
   handler: src/handlers/documents/delete.handler
   events:
     - http: 
         path: /document/{id}
         method: delete
-        
+        #authorizer: verify-token
 signup:
   handler: src/handlers/users/signup.handler
   events:

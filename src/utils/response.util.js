@@ -21,12 +21,7 @@ const withStatusCode = (statusCode, formatter = null) => {
       return response;
     }
   };
-
-  const withError = (errorMessage) => {
-    throw new Error(errorMessage, 404);
-  };
   
   module.exports = {
-    withStatusCode,
-    withError
+    withStatusCode
   };

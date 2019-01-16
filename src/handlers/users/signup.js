@@ -2,17 +2,17 @@ require('dotenv/config');
 
 const uuid = require('uuid/v4');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 const { UsersRepository } = require('../../repositories/users.repository');
 const { withStatusCode } = require('../../utils/response.util');
-const { withError } = require('../../utils/response.util');
 const { parseWith } = require('../../utils/request.util');
 const { withProcessEnv } = require('../../dynamodb.factory');
+const { signAndGenerateToken } = require('../../utils/auth.util');
 
 const docClient = withProcessEnv(process.env)();
 const repository = new UsersRepository(docClient);
 const created = withStatusCode(201, JSON.stringify);
+const badRequest = withStatusCode(400);
 const parseJson = parseWith(JSON.parse);
 
 const handler = async (event) => {
@@ -32,11 +32,12 @@ const handler = async (event) => {
       "status": "Active"
     }
     user = await repository.put(userRec);
-    const token = jwt.sign({id: user.id, email: user.email}, process.env.JWT_SECRET, {expiresIn: 86400});
+    const token = signAndGenerateToken(user.Id, event);
     user.token = token;
   }
   else{
-    withError('User with email already exists');
+    console.error('User with email already exists');
+    return badRequest();
   }
 
   return created(user);
@@ -44,15 +45,18 @@ const handler = async (event) => {
 
 function checkIfInputIsValid(user) {
   if (user.password && user.password.length <= 7) {
-    return withError('Password error. Password needs to be minimum 8 characters.');
+    console.error('Password error. Password needs to be minimum 8 characters.');
+    return badRequest();
   }
 
   if (user.name && user.name.length < 4 && typeof user.name === 'string'){
-     return withError('Username error. Username needs to be minimum 4 character');
+    console.error('Username error. Username needs to be minimum 4 character');
+    return badRequest();
   }
 
   if (!(user.email && typeof user.name === 'string')){
-    return withError('Email error. Email must have valid characters.');
+    console.error('Email error. Email must have valid characters.');
+    return badRequest();
   }
 };
 
