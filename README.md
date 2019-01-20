@@ -2,7 +2,7 @@
 POC to run document management with Serverless, API Gateway, REST and DynamoDB
 
 Modules:
-Users
+Users,
 Documents
 
 Pre-requisites:
